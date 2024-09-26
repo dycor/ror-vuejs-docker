@@ -8,8 +8,8 @@ run:
 	docker-compose up --build
 
 install:
-	cd front && yarn install
-	docker exec -it ruby-api bundle install
+	docker exec react-front yarn install
+	docker exec ruby-api bundle install
 
 create-db:
 	docker-compose run ruby rake db:create
@@ -27,4 +27,12 @@ clean-front:
 	cd front && \
 	rm yarn.lock && \
 	rm -rf node_modules && \
-	yarn install
+	docker exec react-front yarn install
+
+restart:
+	docker restart ruby-api
+	docker restart react-front
+
+pretty:
+	cd front && \
+	prettier --single-quote --trailing-comma es5 --write "**/*.js"
